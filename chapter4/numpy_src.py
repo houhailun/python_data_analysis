@@ -252,10 +252,90 @@ def numpy_data_process():
 
 def numpy_input_output():
     # 用于数组的文件输入输出
+    # PART1: 将数组以二进制格式保存到磁盘；np.load(), np.save()
+    arr = np.arange(10)
+    np.save('some_array', arr)  # 二进制保存
+
+    arr_load = np.load('some_array.npy')  # 加载文件
+    # print(arr_load)
+
+    np.savez('array_archive.npz', a=arr, b=arr)  # 将多个数组保存到压缩文件
+    arch = np.load('array_archive.npz')
+    # print(arch['a'])
+    # print(arch['b'])
+    #
+    # PART2: 存取文本文件
+    arr = np.loadtxt('array_ex.txt', delimiter=',')  # 加载文本文件到二维数组
+    # print(arr)
+    np.savetxt('array_ex.txt', arr, delimiter=',')  # 把数组保存到文本文件
+
+
+def numpy_linear_algebra():
+    # 线性代数: 矩阵乘法、矩阵分解、行列式等
+    x = np.array([[1, 2, 3], [4, 5, 6]])
+    y = np.array([[6, 23], [-1, 7], [8, 9]])
+
+    # print(np.dot(x, y))  # 矩阵乘法,点击
+
+    from numpy.linalg import det, svd, inv
+    print(svd(x))
+    """
+    dot: 矩阵乘法
+    trace: 对角线元素的和
+    det: 计算矩阵行列式
+    eig: 计算方阵的特征值和特征向量
+    inv: 计算方阵的逆
+    qr: QR分解
+    svd: svd分解
+    lstsq: 计算Ax=b的最小二乘解
+    """
+
+
+def numpy_random_data():
+    # 随机数生成
+    samples = np.random.normal(size=(4, 4))  # 标准正态分布
+
+    """
+    numpy.random常用函数
+    seed: 随机数生成器种子
+    permutation: 返回序列的随机排序
+    shuffle: 就地随机打乱序列
+    rand: 产生均匀分布的样本值
+    randint: 从给定的上下限范围内随机选取整数
+    randn: 正态分布
+    binomial: 二项分布
+    normal: 正态-高斯分布
+    beta: beta分布
+    chisquare: 卡方分布
+    gamma: gamma分布
+    uniform: [0,1)均匀分布
+    """
+    arr = np.array([1,2,3,4,5])
+    np.random.shuffle(arr)
+    print(arr)
+
+    arr_new = np.random.permutation(arr)
+    print(arr_new)
+
+    print(np.random.uniform(size=(4,4)))
+    print(np.random.rand(4, 3))
+
+
+def numpy_random_walk():
+    # 范例：随机漫步
+    nsteps = 1000
+    draws = np.random.randint(0, 2, size=nsteps)
+    steps = np.where(draws > 0, 1, -1)
+    walk = np.cumsum(steps)
+    print(walk.min())
+    print(walk.max())
 
 
 if __name__ == "__main__":
     # numpy_learn()
     # numpy_ufunc()
     # numpy_data_process()
-    numpy_input_output()
+    # numpy_input_output()
+    # numpy_linear_algebra()
+    # numpy_random_data()
+    numpy_random_walk()
