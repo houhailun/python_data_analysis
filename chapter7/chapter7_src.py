@@ -398,8 +398,21 @@ def pandas_data_str():
 def usda_project():
     # usda食品数据库案例
     import json
-    data = pd.read_csv('data.csv')
 
+    f = open('foods-2011-10-03.json')
+    db = json.loads(f.read())
+    # print(len(db))
+    # print(db[0].keys())
+    # print(db[0]['nutrients'])
+
+    nutrients = DataFrame(db[0]['nutrients'])
+    # print(nutrients[:7])
+
+    info_keys = ['description', 'group', 'id', 'manufacturer']
+    info = DataFrame(db, columns=info_keys)
+    # print(info[:5])
+    print(info.describe())
+    print(pd.value_counts(info.group)[:10])  # 查看事物类别分布情况
 
 
 if __name__ == "__main__":
